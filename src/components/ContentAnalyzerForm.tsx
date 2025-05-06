@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { analyzeFakeNews } from "@/lib/api";
-import { useToast } from "@/components/ui/toast";
+import { toast } from "@/components/ui/sonner";
 
 interface ContentAnalyzerFormProps {
   onAnalysisComplete: (result: any) => void;
@@ -22,7 +22,6 @@ const ContentAnalyzerForm = ({
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   const [headline, setHeadline] = useState("");
-  const { toast } = useToast();
 
   const handleAnalyze = async (type: "url" | "text" | "headline") => {
     // Validate input
@@ -30,31 +29,19 @@ const ContentAnalyzerForm = ({
     if (type === "url") {
       content = url;
       if (!content || !content.startsWith("http")) {
-        toast({
-          title: "Invalid URL",
-          description: "Please enter a valid URL starting with http:// or https://",
-          variant: "destructive",
-        });
+        toast.error("Invalid URL. Please enter a valid URL starting with http:// or https://");
         return;
       }
     } else if (type === "text") {
       content = text;
       if (!content || content.trim().length < 20) {
-        toast({
-          title: "Text too short",
-          description: "Please enter at least 20 characters for analysis",
-          variant: "destructive",
-        });
+        toast.error("Text too short. Please enter at least 20 characters for analysis");
         return;
       }
     } else if (type === "headline") {
       content = headline;
       if (!content || content.trim().length < 10) {
-        toast({
-          title: "Headline too short",
-          description: "Please enter a full headline for analysis",
-          variant: "destructive",
-        });
+        toast.error("Headline too short. Please enter a full headline for analysis");
         return;
       }
     }
@@ -65,11 +52,7 @@ const ContentAnalyzerForm = ({
       onAnalysisComplete(result);
     } catch (error) {
       console.error("Analysis error:", error);
-      toast({
-        title: "Analysis failed",
-        description: "Unable to analyze the content. Please try again later.",
-        variant: "destructive",
-      });
+      toast.error("Analysis failed. Unable to analyze the content. Please try again later.");
     } finally {
       setIsAnalyzing(false);
     }
