@@ -6,6 +6,7 @@ import ContentAnalyzerForm from "@/components/ContentAnalyzerForm";
 import LoadingAnalysis from "@/components/LoadingAnalysis";
 import AnalysisResult from "@/components/AnalysisResult";
 import InfoSection from "@/components/InfoSection";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
   const [analysisResult, setAnalysisResult] = useState<any>(null);
@@ -17,16 +18,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
       
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
+          <div className="absolute top-4 right-4">
+            <ThemeToggle />
+          </div>
+          
           <div className="text-center max-w-3xl mx-auto mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Detect Fake News & Misinformation
             </h1>
-            <p className="text-gray-600 md:text-lg">
+            <p className="text-muted-foreground md:text-lg">
               Enter a news article, headline, or URL to analyze its credibility.
               Our AI will check for signs of misinformation and provide fact-checking resources.
             </p>
